@@ -1,0 +1,74 @@
+---
+title: "cleandata"
+output: html_document
+date: '2022-10-31'
+---
+
+
+```{r}
+library(rio)
+litcsv = "https://github.com/ximenafuenzalida/data1/raw/main/literacy.csv"
+alfabetismo = import(litcsv)
+data.frame(alfabetismo)
+```
+
+```{r}
+genderdata = "https://github.com/ximenafuenzalida/data1/raw/main/gender%20gap.csv"
+paridad = import(genderdata)
+data.frame(paridad)
+
+```
+
+```{r}
+idhdata = "https://github.com/ximenafuenzalida/data1/raw/main/IDH.csv"
+idh = import(idhdata)
+data.frame(idh)
+```
+
+```{r}
+democracia = read.csv("dem.csv")
+data.frame(democracia)
+```
+
+```{r}
+colnames(democracia) <- c("Pais", "Democracia")
+colnames(paridad) <- c("Pais", "Paridad")
+colnames(idh) <- c("Pais", "IDH")
+colnames(alfabetismo) <- c("Pais", "Alfabetismo")
+
+```
+
+
+
+```{r}
+library(dplyr)
+```
+
+```{r}
+alfabetismo <- arrange(alfabetismo, Alfabetismo)
+paridad <- arrange(paridad, Paridad)
+idh <- arrange(idh, IDH)
+democracia <- arrange(democracia, Democracia)
+```
+
+```{r}
+cleandata1 =merge(democracia,paridad)
+str(cleandata1)
+```
+
+```{r}
+cleandata2 =merge(cleandata1,alfabetismo)
+str(cleandata2)
+```
+
+```{r}
+datafinal =merge(cleandata2,idh)
+str(cleandata)
+```
+
+```{r}
+r1 = lm(democracia ~ alfabetismo + idh + Paridad , data = cleandata)
+summary(r1)
+```
+
+
